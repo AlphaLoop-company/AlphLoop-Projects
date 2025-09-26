@@ -1,0 +1,90 @@
+/* InfKnow 스타일시트
+   - Inf: #4CAF50 (초록)
+   - Know: #64B5F6 (연한 파랑)
+   - 배경: 흰색
+*/
+
+:root{
+  --inf: #4CAF50;
+  --inf-weak: #81C784;
+  --know: #64B5F6;
+  --know-weak: #90CAF9;
+  --bg: #FFFFFF;
+  --text: #1f2937;
+  --muted: #6b7280;
+  --accent-border: #e6edf3;
+  --danger: #ef4444;
+  --sidebar-w: 300px;
+  --radius: 8px;
+  --shadow: 0 6px 18px rgba(31,41,55,0.08);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:Inter, "Helvetica Neue", Arial, sans-serif;-webkit-font-smoothing:antialiased}
+.topbar{
+  display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--accent-border);background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,1));
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{font-weight:800;font-size:20px;letter-spacing:-0.02em}
+.logo .inf{color:var(--inf)}
+.logo .know{color:var(--know)}
+.brand-meta h1{margin:0;font-size:16px}
+.brand-meta small{color:var(--muted)}
+
+.controls{display:flex;gap:8px;align-items:center}
+.btn{border:1px solid transparent;padding:8px 10px;border-radius:8px;background:transparent;cursor:pointer;font-weight:600}
+.btn.primary{background:var(--inf);color:#fff}
+.btn.danger{background:var(--danger);color:#fff}
+.btn.small{padding:6px 8px;font-size:13px;border-radius:6px}
+.btn:disabled{opacity:0.5;cursor:not-allowed}
+
+.app{display:flex;height:calc(100vh - 104px)} /* header + footer 약간 고려 */
+.sidebar{
+  width:var(--sidebar-w);border-right:1px solid var(--accent-border);display:flex;flex-direction:column;background:#fbfdfe;padding:12px;
+}
+.sidebar-header{padding:6px}
+.search{width:100%;padding:8px;border-radius:8px;border:1px solid var(--accent-border);outline:none}
+.notes-list{margin-top:8px;overflow:auto;padding-right:8px}
+.note-item{
+  display:flex;align-items:center;justify-content:space-between;padding:8px;border-radius:6px;margin-bottom:6px;cursor:pointer;
+}
+.note-item:hover{background:linear-gradient(90deg, rgba(100,181,246,0.08), rgba(76,175,80,0.04))}
+.note-title{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.note-meta{color:var(--muted);font-size:12px;margin-left:8px}
+
+.sidebar-footer{padding:8px;border-top:1px solid var(--accent-border);text-align:center;color:var(--muted);font-size:13px}
+
+.workspace{flex:1;display:flex;flex-direction:column}
+.editor-area{flex:1;display:flex;flex-direction:column;padding:12px}
+.editor-header{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.title-input{flex:1;padding:10px;border-radius:8px;border:1px solid var(--accent-border);font-weight:700;font-size:16px}
+.editor-actions{display:flex;gap:8px}
+
+.editor-body{display:flex;flex:1;gap:12px}
+#mdEditor{flex:1;padding:12px;border-radius:8px;border:1px solid var(--accent-border);resize:none;font-size:14px;line-height:1.5;min-height:320px}
+.preview{flex:1;padding:12px;border-radius:8px;border:1px solid var(--accent-border);background:#fff;overflow:auto}
+
+/* Graph area */
+.graph-area{border-top:1px solid var(--accent-border);padding:8px 12px;background:linear-gradient(180deg,#fff,#fcfeff)}
+.graph-toolbar{display:flex;align-items:center;justify-content:space-between;padding:6px 0}
+.zoom-controls{display:flex;align-items:center;gap:8px}
+.zoom-label{color:var(--muted);margin-left:6px}
+.legend{display:flex;gap:12px;align-items:center}
+.legend-item{display:flex;gap:6px;align-items:center;color:var(--muted);font-size:13px}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.dot.inf{background:var(--inf)}
+.dot.know{background:var(--know)}
+.dot.missing{background:transparent;border:2px dashed #cbd5e1;width:12px;height:12px;border-radius:50%}
+
+.graph-container{height:320px;border-radius:8px;border:1px solid var(--accent-border);overflow:hidden;background:linear-gradient(90deg, rgba(255,255,255,0.6), #fff)}
+.footer{height:48px;display:flex;align-items:center;justify-content:center;border-top:1px solid var(--accent-border);font-size:13px;color:var(--muted)}
+
+/* responsive */
+@media (max-width: 900px){
+  :root{--sidebar-w:240px}
+  .app{flex-direction:column}
+  .sidebar{width:100%;height:160px;order:2}
+  .workspace{order:1}
+  .editor-body{flex-direction:column}
+  .graph-container{height:220px}
+}

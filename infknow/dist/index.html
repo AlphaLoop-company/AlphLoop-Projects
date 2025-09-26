@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>InfKnow</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>InfKnow — Lightweight Obsidian-like</title>
+
+  <!-- 스타일시트 -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- 외부 라이브러리 (CDN) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.4/d3.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" defer></script>
+  <!-- 메인 JS -->
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo" aria-hidden>
+        <span class="inf">Inf</span><span class="know">Know</span>
+      </div>
+      <div class="brand-meta">
+        <h1>InfKnow</h1>
+        <small>정보(Inf)가 지식(Know)이 되는 공간</small>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="newNoteBtn" class="btn primary" title="새 노트">+ New</button>
+      <button id="exportBtn" class="btn" title="노트 내보내기">Export</button>
+      <button id="importBtn" class="btn" title="노트 불러오기">Import</button>
+    </div>
+  </header>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <input id="searchInput" class="search" placeholder="검색 또는 태그 #검색" />
+      </div>
+
+      <div id="notesList" class="notes-list" aria-live="polite"></div>
+
+      <div class="sidebar-footer">
+        <small>Notes: <span id="notesCount">0</span></small>
+      </div>
+    </aside>
+
+    <main class="workspace">
+      <section class="editor-area">
+        <div class="editor-header">
+          <input id="noteTitle" class="title-input" placeholder="제목 (첫 줄)" />
+          <div class="editor-actions">
+            <button id="saveBtn" class="btn primary">Save</button>
+            <button id="deleteBtn" class="btn danger">Delete</button>
+          </div>
+        </div>
+
+        <div class="editor-body">
+          <textarea id="mdEditor" placeholder="여기에 마크다운을 입력하세요..."></textarea>
+          <div id="preview" class="preview" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="graph-area">
+        <div class="graph-toolbar">
+          <div class="zoom-controls">
+            <button id="zoomOut" class="btn small">-</button>
+            <input id="zoomSlider" type="range" min="0.5" max="3" step="0.05" value="1" />
+            <button id="zoomIn" class="btn small">+</button>
+            <button id="resetZoom" class="btn small">Reset</button>
+            <span class="zoom-label">Zoom: <span id="zoomVal">100%</span></span>
+          </div>
+          <div class="legend">
+            <span class="legend-item"><span class="dot inf"></span>Inf</span>
+            <span class="legend-item"><span class="dot know"></span>Know</span>
+            <span class="legend-item"><span class="dot missing"></span>Missing</span>
+          </div>
+        </div>
+        <div id="graphContainer" class="graph-container">
+          <!-- D3가 여기로 svg 삽입 -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <small>InfKnow — Local demo (localStorage). Brand: Inf <span style="color:#4CAF50;">■</span> Know <span style="color:#64B5F6;">■</span></small>
+  </footer>
+
+  <!-- 파일 input (import) -->
+  <input id="fileInput" type="file" accept="application/json" style="display:none" />
+</body>
+</html>
+    <script type="module" src="./script.js"></script>
+
+  </body>
+  
+</html>
