@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Korean Civilization VI</title>
+    <link rel="stylesheet" href="./style.css">
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>한국판 시드 마이어의 문명 VI - 고급 에디션</title>
+    <link rel="stylesheet" href="enhanced_civilization_game.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- 로딩 화면 -->
+    <div id="loading-screen" class="screen-overlay">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <h1>한국판 시드 마이어의 문명 VI</h1>
+                <p class="loading-subtitle">고급 에디션</p>
+            </div>
+            <div class="loading-bar-container">
+                <div class="loading-bar">
+                    <div class="loading-progress"></div>
+                </div>
+                <div class="loading-percentage">0%</div>
+            </div>
+            <p class="loading-text">한국의 위대한 역사를 창조하는 중...</p>
+            <div class="loading-tips">
+                <p id="loading-tip">팁: 기술 연구를 통해 새로운 유닛과 건물을 잠금 해제하세요!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 메인 메뉴 -->
+    <div id="main-menu" class="screen-overlay visible">
+        <div class="menu-background">
+            <div class="menu-particles"></div>
+        </div>
+        <div class="menu-content">
+            <div class="menu-header">
+                <h1 class="menu-title">한국판 문명 VI</h1>
+                <p class="menu-subtitle">고급 에디션</p>
+            </div>
+            <nav class="menu-navigation">
+                <button class="menu-button primary" onclick="startNewGame()">
+                    <i class="fas fa-play"></i>
+                    <span>새 게임</span>
+                </button>
+                <button class="menu-button" onclick="loadGame()">
+                    <i class="fas fa-folder-open"></i>
+                    <span>게임 불러오기</span>
+                </button>
+                <button class="menu-button" onclick="showMultiplayer()">
+                    <i class="fas fa-users"></i>
+                    <span>멀티플레이</span>
+                </button>
+                <button class="menu-button" onclick="showOptions()">
+                    <i class="fas fa-cog"></i>
+                    <span>옵션</span>
+                </button>
+                <button class="menu-button" onclick="showCredits()">
+                    <i class="fas fa-info-circle"></i>
+                    <span>크레딧</span>
+                </button>
+                <button class="menu-button danger" onclick="exitGame()">
+                    <i class="fas fa-times"></i>
+                    <span>종료</span>
+                </button>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 게임 화면 -->
+    <div id="game-container" class="game-screen">
+        <!-- 상단 UI -->
+        <header id="top-ui" class="game-header">
+            <nav class="top-navigation">
+                <button class="nav-item" onclick="showGameMenu()" data-tooltip="게임 메뉴">
+                    <i class="fas fa-bars"></i>
+                    <span>게임</span>
+                </button>
+                <button class="nav-item" onclick="showDiplomacy()" data-tooltip="외교 관리">
+                    <i class="fas fa-handshake"></i>
+                    <span>외교</span>
+                </button>
+                <button class="nav-item" onclick="showReports()" data-tooltip="문명 보고서">
+                    <i class="fas fa-chart-line"></i>
+                    <span>보고서</span>
+                </button>
+                <button class="nav-item" onclick="showTrade()" data-tooltip="교역 관리">
+                    <i class="fas fa-coins"></i>
+                    <span>교역</span>
+                </button>
+                <button class="nav-item" onclick="showReligion()" data-tooltip="종교 시스템">
+                    <i class="fas fa-pray"></i>
+                    <span>종교</span>
+                </button>
+                <button class="nav-item" onclick="showWonders()" data-tooltip="불가사의">
+                    <i class="fas fa-monument"></i>
+                    <span>불가사의</span>
+                </button>
+            </nav>
+            
+            <div class="resources-display">
+                <div class="resource-item" data-tooltip="식량 - 도시 성장에 필요">
+                    <i class="fas fa-bread-slice resource-icon"></i>
+                    <span class="resource-value" id="food-display">25</span>
+                    <span class="resource-gain positive" id="food-gain">(+9)</span>
+                </div>
+                <div class="resource-item" data-tooltip="생산력 - 건물과 유닛 생산">
+                    <i class="fas fa-hammer resource-icon"></i>
+                    <span class="resource-value" id="production-display">18</span>
+                    <span class="resource-gain positive" id="production-gain">(+3)</span>
+                </div>
+                <div class="resource-item" data-tooltip="금 - 유닛 유지비와 구매">
+                    <i class="fas fa-coins resource-icon"></i>
+                    <span class="resource-value" id="gold-display">150</span>
+                    <span class="resource-gain positive" id="gold-gain">(+8)</span>
+                </div>
+                <div class="resource-item" data-tooltip="과학 - 기술 연구">
+                    <i class="fas fa-flask resource-icon"></i>
+                    <span class="resource-value" id="science-display">12</span>
+                    <span class="resource-gain positive" id="science-gain">(+4)</span>
+                </div>
+                <div class="resource-item" data-tooltip="문화 - 사회 제도 개발">
+                    <i class="fas fa-theater-masks resource-icon"></i>
+                    <span class="resource-value" id="culture-display">8</span>
+                    <span class="resource-gain positive" id="culture-gain">(+2)</span>
+                </div>
+                <div class="resource-item" data-tooltip="신앙 - 종교 활동">
+                    <i class="fas fa-star resource-icon"></i>
+                    <span class="resource-value" id="faith-display">6</span>
+                    <span class="resource-gain positive" id="faith-gain">(+1)</span>
+                </div>
+            </div>
+            
+            <div class="turn-controls">
+                <div class="turn-info">
+                    <div class="year-display" id="year-display">4000 BC</div>
+                    <div class="turn-number">턴 <span id="turn-number">1</span></div>
+                </div>
+                <button id="next-turn-btn" class="next-turn-button" onclick="nextTurn()" data-tooltip="다음 턴으로 진행">
+                    <i class="fas fa-forward"></i>
+                    <span>다음 턴</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- 게임 영역 -->
+        <main id="game-area" class="game-main">
+            <!-- 왼쪽 패널 -->
+            <aside id="left-panel" class="side-panel left-panel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-microscope"></i> 연구 & 개발</h3>
+                    <button class="panel-toggle" onclick="togglePanel('left-panel')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                </div>
+                
+                <!-- 기술 연구 섹션 -->
+                <section class="panel-section" id="tech-section">
+                    <div class="section-header">
+                        <h4><i class="fas fa-cog"></i> 기술 연구</h4>
+                        <button class="section-expand" onclick="toggleSection('tech-section')">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="research-item" data-tech="pottery">
+                            <div class="research-header">
+                                <span class="research-name">토기술</span>
+                                <span class="research-turns">4턴</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 60%;"></div>
+                                </div>
+                                <span class="progress-text">60%</span>
+                            </div>
+                            <div class="research-benefits">
+                                <span class="benefit-tag">곡창 건설 가능</span>
+                            </div>
+                        </div>
+                        
+                        <div class="research-item" data-tech="agriculture">
+                            <div class="research-header">
+                                <span class="research-name">농업</span>
+                                <span class="research-turns">9턴</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 20%;"></div>
+                                </div>
+                                <span class="progress-text">20%</span>
+                            </div>
+                            <div class="research-benefits">
+                                <span class="benefit-tag">농장 건설 가능</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 사회 제도 섹션 -->
+                <section class="panel-section" id="civic-section">
+                    <div class="section-header">
+                        <h4><i class="fas fa-balance-scale"></i> 사회 제도</h4>
+                        <button class="section-expand" onclick="toggleSection('civic-section')">
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                    </div>
+                    <div class="section-content">
+                        <div class="research-item" data-civic="code_of_laws">
+                            <div class="research-header">
+                                <span class="research-name">법전</span>
+                                <span class="research-turns">8턴</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar civic">
+                                    <div class="progress-fill" style="width: 40%;"></div>
+                                </div>
+                                <span class="progress-text">40%</span>
+                            </div>
+                            <div class="research-benefits">
+                                <span class="benefit-tag">정부 광장 건설</span>
+                            </div>
+                        </div>
+                        
+                        <div class="research-item" data-civic="foreign_trade">
+                            <div class="research-header">
+                                <span class="research-name">대외 무역</span>
+                                <span class="research-turns">15턴</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar civic">
+                                    <div class="progress-fill" style="width: 10%;"></div>
+                                </div>
+                                <span class="progress-text">10%</span>
+                            </div>
+                            <div class="research-benefits">
+                                <span class="benefit-tag">교역로 개설</span>
+                            </div>
+                        </div>
+                        
+                        <div class="research-item" data-civic="craftsmanship">
+                            <div class="research-header">
+                                <span class="research-name">장인 정신</span>
+                                <span class="research-turns">17턴</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar civic">
+                                    <div class="progress-fill" style="width: 5%;"></div>
+                                </div>
+                                <span class="progress-text">5%</span>
+                            </div>
+                            <div class="research-benefits">
+                                <span class="benefit-tag">작업장 건설</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+
+            <!-- 메인 게임 캔버스 -->
+            <div id="canvas-container" class="canvas-container">
+                <canvas id="game-canvas" width="800" height="600"></canvas>
+                <div class="canvas-overlay">
+                    <div class="canvas-controls">
+                        <button class="canvas-control" onclick="centerOnCapital()" data-tooltip="수도로 이동">
+                            <i class="fas fa-home"></i>
+                        </button>
+                        <button class="canvas-control" onclick="toggleGrid()" data-tooltip="격자 표시/숨김">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button class="canvas-control" onclick="toggleYields()" data-tooltip="타일 수확량 표시">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 오른쪽 패널 -->
+            <aside id="right-panel" class="side-panel right-panel">
+                <div class="panel-header">
+                    <button class="panel-toggle" onclick="togglePanel('right-panel')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                    <h3><i class="fas fa-info-circle"></i> 정보 & 제어</h3>
+                </div>
+
+                <!-- 유닛 정보 섹션 -->
+                <section class="panel-section" id="unit-panel" style="display: none;">
+                    <div class="section-header">
+                        <h4><i class="fas fa-chess-pawn"></i> 유닛 정보</h4>
+                    </div>
+                    <div class="section-content">
+                        <div class="unit-info">
+                            <div class="unit-portrait">
+                                <div class="unit-icon" id="unit-icon">전</div>
+                                <div class="unit-health-bar">
+                                    <div class="health-fill" style="width: 100%;"></div>
+                                </div>
+                            </div>
+                            <div class="unit-details">
+                                <h5 id="unit-name">전사</h5>
+                                <div class="unit-stats">
+                                    <div class="stat-item">
+                                        <i class="fas fa-sword"></i>
+                                        <span>전투력: <span id="unit-strength">20</span></span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="fas fa-heart"></i>
+                                        <span>체력: <span id="unit-health">100/100</span></span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="fas fa-running"></i>
+                                        <span>이동력: <span id="unit-movement">2/2</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="unit-actions">
+                            <button class="action-btn primary" onclick="moveUnit()" data-tooltip="유닛 이동">
+                                <i class="fas fa-arrows-alt"></i>
+                                <span>이동</span>
+                            </button>
+                            <button class="action-btn danger" onclick="attackUnit()" data-tooltip="적 공격">
+                                <i class="fas fa-sword"></i>
+                                <span>공격</span>
+                            </button>
+                            <button class="action-btn" onclick="fortifyUnit()" data-tooltip="방어 태세">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>요새화</span>
+                            </button>
+                            <button class="action-btn success" onclick="healUnit()" data-tooltip="체력 회복">
+                                <i class="fas fa-medkit"></i>
+                                <span>치료</span>
+                            </button>
+                            <button class="action-btn" onclick="buildImprovement()" data-tooltip="개선시설 건설">
+                                <i class="fas fa-hammer"></i>
+                                <span>건설</span>
+                            </button>
+                            <button class="action-btn" onclick="exploreUnit()" data-tooltip="자동 탐험">
+                                <i class="fas fa-search"></i>
+                                <span>탐험</span>
+                            </button>
+                            <button class="action-btn secondary" onclick="skipUnitTurn()" data-tooltip="턴 넘기기">
+                                <i class="fas fa-forward"></i>
+                                <span>턴 넘기기</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 도시 정보 섹션 -->
+                <section class="panel-section" id="city-panel" style="display: none;">
+                    <div class="section-header">
+                        <h4><i class="fas fa-city"></i> 도시 정보</h4>
+                    </div>
+                    <div class="section-content">
+                        <div class="city-info">
+                            <div class="city-header">
+                                <h5 id="city-name">서울</h5>
+                                <div class="city-stats">
+                                    <div class="stat-item">
+                                        <i class="fas fa-users"></i>
+                                        <span>인구: <span id="city-population">1</span></span>
+                                    </div>
+                                    <div class="stat-item">
+                                        <i class="fas fa-seedling"></i>
+                                        <span>성장: <span id="city-growth">5턴</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="city-production">
+                                <h6><i class="fas fa-cog"></i> 생산 중</h6>
+                                <div class="production-item">
+                                    <span id="current-production">전사</span>
+                                    <span class="production-turns">(<span id="production-turns">3</span>턴 남음)</span>
+                                </div>
+                                <div class="production-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 33%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="city-buildings">
+                                <h6><i class="fas fa-building"></i> 건물</h6>
+                                <div class="building-list">
+                                    <div class="building-item">
+                                        <i class="fas fa-crown"></i>
+                                        <span>궁전</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 미니맵 섹션 -->
+                <section class="panel-section" id="minimap-section">
+                    <div class="section-header">
+                        <h4><i class="fas fa-map"></i> 미니맵</h4>
+                    </div>
+                    <div class="section-content">
+                        <div class="minimap-container">
+                            <canvas id="minimap" width="150" height="150"></canvas>
+                            <div class="minimap-controls">
+                                <button class="minimap-btn" onclick="zoomIn()" data-tooltip="확대">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                                <button class="minimap-btn" onclick="zoomOut()" data-tooltip="축소">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </aside>
+        </main>
+
+        <!-- 하단 UI -->
+        <footer id="bottom-ui" class="game-footer">
+            <div class="unit-queue">
+                <div class="queue-header">
+                    <h4><i class="fas fa-list"></i> 유닛 목록</h4>
+                </div>
+                <div class="unit-list">
+                    <div class="unit-card" onclick="selectUnit(0)" data-tooltip="이주민 - 도시 건설">
+                        <div class="unit-card-icon">개</div>
+                        <div class="unit-card-name">이주민</div>
+                        <div class="unit-card-status">
+                            <div class="status-dot ready"></div>
+                        </div>
+                    </div>
+                    <div class="unit-card selected" onclick="selectUnit(1)" data-tooltip="전사 - 근접 전투">
+                        <div class="unit-card-icon">전</div>
+                        <div class="unit-card-name">전사</div>
+                        <div class="unit-card-status">
+                            <div class="status-dot ready"></div>
+                        </div>
+                    </div>
+                    <div class="unit-card" onclick="selectUnit(2)" data-tooltip="정찰병 - 빠른 탐험">
+                        <div class="unit-card-icon">정</div>
+                        <div class="unit-card-name">정찰병</div>
+                        <div class="unit-card-status">
+                            <div class="status-dot ready"></div>
+                        </div>
+                    </div>
+                    <div class="unit-card" onclick="selectUnit(3)" data-tooltip="지휘관 - 부대 지휘">
+                        <div class="unit-card-icon">지</div>
+                        <div class="unit-card-name">지휘관</div>
+                        <div class="unit-card-status">
+                            <div class="status-dot ready"></div>
+                        </div>
+                    </div>
+                    <div class="unit-card" onclick="selectUnit(4)" data-tooltip="개척자 - 새로운 정착지">
+                        <div class="unit-card-icon">개</div>
+                        <div class="unit-card-name">개척자</div>
+                        <div class="unit-card-status">
+                            <div class="status-dot ready"></div>
+                        </div>
+                    </div>
+                    <div class="unit-card" onclick="selectUnit(5)" data-tooltip="탐험가 - 장거리 탐험">
+                        <div class="unit-card-icon">탐</div>
+                        <div class="unit-card-name">탐험가</div>
+                        <div class="unit-card-status">
+                            <div class="status-dot ready"></div>
+                        </div>
+                    </div>
+                    <div class="unit-card" onclick="selectUnit(6)" data-tooltip="건설자 - 개선시설 건설">
+                        <div class="unit-card-icon">건</div>
+                        <div class="unit-card-name">건설자</div>
+                        <div class="unit-card-status">
+                            <div class="status-dot ready"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- 알림 시스템 -->
+    <div id="notifications" class="notifications-container"></div>
+
+    <!-- 툴팁 -->
+    <div id="tooltip" class="tooltip" style="display: none;"></div>
+
+    <!-- 모달 컨테이너 -->
+    <div id="modal-container" class="modal-container"></div>
+
+    <script src="enhanced_civilization_game.js"></script>
+</body>
+</html>
+    <script  src="./script.js"></script>
+
+  </body>
+  
+</html>
